@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/rotting-oranges/submissions/971896564/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -22,10 +24,10 @@ public:
 			for (int i = 0; i < size; i++) {
 				int r = q.front().first;
 				int c = q.front().second;
-
+				q.pop();
 				for (int j = 0; j < 4; j++) {
-					int nr = r + v[i];
-					int nc = c + v[i + 1];
+					int nr = r + v[j];
+					int nc = c + v[j + 1];
 
 					if (nr < 0 || nc < 0 || nc >= m || nr >= n) continue;
 
@@ -39,12 +41,19 @@ public:
 
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
+				cout << grid[i][j] << " ";
+			}
+			cout << endl;
+		}
+
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
 					return -1;
 				}
 			}
 		}
-		return time;
+		return (time - 1 > 0) ? time - 1 : 0;
 	}
 };
 
