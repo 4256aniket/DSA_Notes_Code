@@ -5,10 +5,11 @@ using namespace std;
 #define vi vector<int>
 #define cll vector<long long int>
 
+// Memoization
 class Solution {
 public:
 
-	int solve(vector<int>& prices, int prev, int ind, int canTake, vector<vector<int>>& dp) {
+	int solve(vector<int>& prices, int ind, int canTake, vector<vector<int>>& dp) {
 
 		if (ind == prices.size()) return -1;
 
@@ -17,10 +18,10 @@ public:
 		int op1 = 0, op2 = 0;
 		if (canTake) {
 			// didn't take previously
-			op1 = max(solve(prices, ind, ind + 1, 0, dp), solve(prices, prev, ind + 1, 1, dp));
+			op1 = max(-prices[ind] + solve(prices, ind + 1, 0, dp), solve(prices, ind + 1, 1, dp));
 		} else {
 			// holding prev stock
-			op2 = max(prices[ind] - prices[prev] + solve(prices, -1, ind, 1, dp), solve(prices, prev, ind + 1, 0, dp));
+			op2 = max(prices[ind] + solve(prices, ind, 1, dp), solve(prices, ind + 1, 0, dp));
 		}
 		return dp[ind][canTake] = max(op1, op2);
 	}
@@ -28,10 +29,25 @@ public:
 	int maxProfit(vector<int>& prices) {
 		int n = prices.size();
 		vector<vector<int>> dp(n, vector<int>(2, -1));
-		return solve(prices, -1, 0, 1, dp);
+		return solve(prices, 0, 1, dp);
 	}
 };
 
+
+// Tabulation
+
+class Solution {
+public:
+	int maxProfit(vector<int>& prices) {
+		int maxPro = 0;
+		for (int i = 1; i < prices.size(); i++) {
+			if (prices[i] > prices[i - 1]) {
+				maxPro += prices[i] - prices[i - 1];
+			}
+		}
+		return maxPro;
+	}
+};
 int main() {
 #ifndef ONLINE_JUDGE
 	freopen("input.txt", "r", stdin);
