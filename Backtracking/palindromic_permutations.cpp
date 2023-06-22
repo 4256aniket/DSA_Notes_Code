@@ -1,6 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Given string is always a possible palindrome
+// get all permutations for half of string and add its reverse into it -> resulting string is palindrome
+// if some char freq is odd, then stuff it in middle of half permutation and its reverse
+
 void permutations(string& s, int ind, int n, vector<string>& perm) {
 	if (ind == n) {
 		perm.push_back(s);
